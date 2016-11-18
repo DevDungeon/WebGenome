@@ -81,7 +81,6 @@ variables were introduced and nothing needs to change in the systemctl script
 	systemctl restart webgenome
 
 ## Source Code
------------
 * [WebGenome (GitHub.com)](https://www.github.com/DevDungeon/WebGenome)
 
 ## Contact
