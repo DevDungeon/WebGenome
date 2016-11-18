@@ -1,0 +1,22 @@
+<h1>{{.title}}</h1>
+
+<ul>
+	{{range .domains}}
+		<li><a href="/domain/{{.Id.Hex}}">{{.Name}}</a></li>
+	{{end}}
+</ul>
+
+
+{{if .previousPage}}
+<a href="{{ .previousPage }}">Previous</a>
+{{else}}
+Previous
+{{end}}
+
+{{if .nextPage}}
+<a href="{{ .nextPage }}">Next</a>
+{{else}}
+Next
+{{end}}
+
+<p>Current Page: {{ .pageNumber }}</p>

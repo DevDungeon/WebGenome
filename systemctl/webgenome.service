@@ -1,0 +1,13 @@
+[Unit]
+Description=Webgenome Webserver
+After=network.target
+
+[Service]
+Type=simple
+User=webgenome
+WorkingDirectory=/home/webgenome/gospace/src/github.com/DevDungeon/WebGenome/website
+ExecStart=/home/webgenome/gospace/src/github.com/DevDungeon/WebGenome/website/website
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target

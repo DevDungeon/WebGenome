@@ -1,0 +1,12 @@
+<h1>{{.title}}</h1>
+
+<ul>
+	{{range .domains}}
+		<li><a href="/domain/{{.Id.Hex}}">{{.Name}}</a></li>
+	{{end}}
+</ul>
+
+
+Next page available for <a href="/premium">premium members</a>.
+
+<p>Current Page: {{ .pageNumber }}</p>

@@ -1,0 +1,203 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////
+  Created By: Brendan Polk // www.brendanpolk.com // for Dev Dungeon //www.devdungeon.com//
+//////////////////////////////////////////////////////////////////////////////////////////////*/
+body {
+    padding: 0;
+    margin: 0;
+    background-color: #3b3b3b;
+    font-family: 'Roboto', helvetica, arial, sans-serif;
+    font-weight: 300;
+    color: #f1f1f1;
+}
+
+/*/////////////////////////////////
+  GLOBAL STYLES
+/////////////////////////////////*/
+
+h1, h2, h3, h4, h5, h6 {
+    color: #f1f1f1;
+    font-weight: 300;
+}
+
+p {
+    font-size: 1.25em;
+    line-height: 1.5em;
+}
+
+ul, li {
+    font-size: 1em;
+}
+
+a {
+    color: #00fbe1;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #f1f1f1;
+}
+
+/*/////////////////////////////////
+  HEADER STYLES
+/////////////////////////////////*/
+
+.header-container {
+    width: 100%;
+    background-color: #262626;
+}
+
+.header {
+    width: 100%;
+    max-width: 1170px;
+    margin: 0 auto;
+    background-color: #262626
+}
+
+.header-content {
+    width: 100%;
+    max-width: 1170px;
+    margin: 0 auto;
+    padding: 20px 0px 20px 0px;
+}
+
+.logo {
+    display: inline;
+    margin: 0 auto;
+    padding-left: 20px;
+}
+
+.logo img {
+    width: 350px;
+}
+
+.main-menu {
+    float: right;
+    margin: 0 auto;
+    display: inline-block;
+    text-align: right;
+}
+
+.main-menu li {
+    padding-left: 25px;
+    display: inline;
+    text-align: right;
+}
+
+/*/////////////////////////////////
+  BODY STYLES
+/////////////////////////////////*/
+.body-container {
+    width: 100%;
+}
+
+.blog-post-container {
+    margin: 10px;
+}
+
+.blog-post {
+    width: 100%;
+    max-width: 1170px;
+    background-color: #262626;
+    margin: 0 auto;
+}
+
+.blog-post-content {
+    padding: 20px 20px 30px 20px;
+    display: inline-block;
+    color: #f1f1f1;
+}
+
+.blog-post-excerpt {
+    margin-top: 20px;
+}
+
+.read-button {
+    background-color: #00fbe1;
+    width: 100px;
+    padding: 5px 10px 5px 10px;
+    border-radius: 10px;
+    margin-top: 20px;
+    display: block;
+}
+
+.read-button:hover {
+    background-color: #f1f1f1;
+}
+
+.read-button p {
+    color: #262626;
+    text-align: center;
+    padding: 0px;
+    font-size: 1em;
+}
+
+.column {
+    width: 28.5%;
+    background-color: #262626;
+    display: inline-block;
+    padding: 20px;
+}
+
+/*/////////////////////////////////
+FOOTER STYLES
+/////////////////////////////////*/
+.footer-container {
+    width: 100%;
+    background-color: #262626;
+    display: block;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+
+.footer {
+    width: 100%;
+    max-width: 1170px;
+    margin: 0 auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.footer p {
+    font-size: 1em;
+}
+
+.footer-column {
+    width: 23%;
+    display: inline-block;
+    padding: 50px 20px 50px 0px;
+}
+
+.footer-copyright-container {
+    width: 100%;
+    background-color: #262626;
+    display: block;
+    margin: 0 auto;
+    border-top: 1px solid #666;
+}
+
+.footer-copyright {
+    width: 100%;
+    max-width: 1170px;
+    margin: 0 auto;
+    padding: 10px 0px 10px 20px;
+}
+
+.footer-copyright p {
+    color: #666;
+    font-size: .75em;
+}
+
+#page-title {
+    margin-left: 20px;
+}
+
+body {
+	color: #f1f1f1;
+}
+
+
+
+
+
+
+

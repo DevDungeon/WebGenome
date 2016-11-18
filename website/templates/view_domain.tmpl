@@ -1,0 +1,34 @@
+
+
+<h1>{{.domain.Name}}</h1>
+
+<p style="font-size:100%">
+<a href="/random">Random Domain</a>
+</p>
+
+
+<h2>Headers</h2>
+<table class="headers">
+	{{range .domain.Headers}}
+	<tr>
+		<th class="header-key">{{.Key}}</th><td class="header-value">{{.Value}}</td>
+	</tr>
+	{{end}}
+</table>
+
+<h2>Misc</h2>
+<table class="domain-summary">
+	<tr><th>Last Checked</th><td>{{.domain.LastChecked}}</td></tr>
+	<tr><th>Skipped</th><td>{{.domain.Skipped}}</td></tr>
+</table>
+
+
+{{if .parentDomains}}
+<h2>Path to DevDungeon</h2>
+<ol>
+{{range .parentDomains}}
+	<li><a href="/domain/{{.Id.Hex}}">{{.Name}}</a></li>
+{{end}}
+</ol>
+{{end}}
+
