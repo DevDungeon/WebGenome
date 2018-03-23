@@ -39,8 +39,12 @@ systemctl service to function properly.
 Create a MongoDB database and seed it with a domain.
 
 	mongo
-	> use webgenome;
+	> use webgenome
 	> db.domains.insert({'name':'www.devdungeon.com'})
+
+Add an index on the name field to really speed things up:
+
+	db.domains.createIndex({name:1})
 
 ### Run website using systemd
 
