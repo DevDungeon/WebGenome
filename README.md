@@ -30,6 +30,9 @@ systemctl service to function properly.
     go get github.com/DevDungeon/WebGenome/core
     go get github.com/DevDungeon/WebGenome/website
     go get github.com/DevDungeon/WebGenome/worker_http
+    
+    # Or all at once with
+    go get github.cm/DevDungeon/WebGenome...
 	
 ### Setting up database
 
@@ -57,6 +60,23 @@ an executable in that directory, or copy the one in your $GOBIN to the website d
 
 The web server will listen on port 3000 by default.
 Access it directly or set up a reverse proxy
+
+# /etc/nginx/conf.d/webgenome.conf
+	server {
+	listen 80;
+	server_name webgeno.me;
+	return 301 $scheme://www.webgeno.me$request_uri;
+	}
+
+	server {
+		listen 80;
+		server_name www.webgeno.me;
+		location / {
+			proxy_set_header X-Real-IP $remote_addr;
+			proxy_pass http://localhost:3000;
+		}
+	}
+
 
 ### Running worker_http
 	worker_http --host=localhost --database=webgenome --collection=domains --max-threads=4 --http-timeout=30 --batch-size=100 --verbose
