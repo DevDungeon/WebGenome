@@ -218,13 +218,14 @@ func processDomain(domain core.Domain, httpTimeout time.Duration, doneChannel ch
 	)
 	domain.LastChecked = time.Now()
 
-	// Ignore some subdomains
+	// Ignore some subdomains. These are like black holes with almost infinite subdomains
 	// TODO Move this to a config file
 	ignoredDomains := []string{
 		".blogspot.com",
 		".tumblr.com",
 		".booked.net",
 		".deviantart.com",
+		".zxdyw.com",
 	}
 	for _, ignoredDomain := range ignoredDomains {
 		pos := strings.Index(domain.Name, ignoredDomain)
