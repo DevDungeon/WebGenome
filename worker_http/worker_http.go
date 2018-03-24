@@ -409,7 +409,7 @@ Options:
 			numThreads += 1
 			totalRuns += 1
 
-			logInfo("Checking " + uncheckedDomains[x].Name)
+			logGreen("Checking " + uncheckedDomains[x].Name)
 			go processDomain(uncheckedDomains[x], httpTimeout, doneChannel, dbConn)
 
 			// Wait until a done signal before next if max threads reached
