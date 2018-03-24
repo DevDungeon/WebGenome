@@ -1,21 +1,3 @@
-/*
-Copyright (C) 2015, 2016 NanoDano <nanodano@devdungeon.com>
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-*/
-
 package main
 
 import (
@@ -232,14 +214,32 @@ func processDomain(domain core.Domain, httpTimeout time.Duration, doneChannel ch
 
 	var (
 		err       error
-		userAgent string = "WebGeno.me Research Project"
+		userAgent string = "WebGeno.me Research Project - Report issues to support@webgeno.me"
 	)
 	domain.LastChecked = time.Now()
 
-	// Ignore all subdomains. if there are 2 dots but the first four letters are not www.
-	//	if getDotCount(domain.Name) > 1 && !areFirstFourLettersWwwDot(domain.Name) {
-	//		return
-	//	}
+	// Ignore some subdomains
+	// TODO Move this to a config file
+	ignoredDomains := []string{
+		".blogspot.com",
+		".tumblr.com",
+		".booked.net",
+		".deviantart.com",
+	}
+	for _, ignoredDomain := range ignoredDomains {
+		pos := strings.Index(domain.Name, ignoredDomain)
+		if pos > -1 {
+			logInfo("Skipping ignored subdomain: " + domain.Name)
+			domain.Skipped = true
+			err = dbConn.Update(
+				bson.M{"_id": domain.Id},
+				domain,
+			)
+			check(err)
+			doneChannel <- true
+			return
+		}
+	}
 
 	transport := &http.Transport{DisableKeepAlives: true}
 	client := &http.Client{
@@ -359,7 +359,7 @@ Options:
   --batch-size=<batchsize>    How many unchecked domains to pull and run per loop
   --verbose                   Increase output verbosity.`
 
-	arguments, err := docopt.Parse(usage, nil, true, "Web Genome Worker 2.0", false)
+	arguments, err := docopt.Parse(usage, nil, true, "Web Genome Worker", false)
 	if err != nil {
 		logError("Error parsing command line arguments. " + err.Error())
 		os.Exit(1)

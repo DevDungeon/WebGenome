@@ -3,7 +3,7 @@
 ## Overview
 
 A breadth first web crawler that stores HTTP headers in a MongoDB database with
-a web front end all written in Go. www.WebGeno.me is www.DevDungeon.com project.
+a web front end all written in Go. http://www.webgno.me is a https://www.devdungeon.com project.
 
 ## Website
 
@@ -11,51 +11,60 @@ a web front end all written in Go. www.WebGeno.me is www.DevDungeon.com project.
 * [DevDungeon.com Web Genome project page](http://www.devdungeon.com/content/web-genome)
 
 
-
 ## Setup
+
+### Create a Linux user
+
+	sudo useradd webgenome
 
 ### Set up the Go environment
 
-Put this in the .bashrc. This is required to run go get, but not for the
-systemctl service to function properly.
+Set up your GOPATH to be /home/webgenome/go
 
+	# In ~/.bashrc
 	export GOPATH=/home/webgenome/gospace
-	export GOBIN=/home/webgenome/gobin
-	export PATH=$PATH:/opt/go/bin:/home/webgenome/gobin
-	export GOROOT=/opt/go
 
 ### Get the packages
 
+    # All at once with
+    go get github.cm/DevDungeon/WebGenome...
+	
+	# Or individually
     go get github.com/DevDungeon/WebGenome
     go get github.com/DevDungeon/WebGenome/core
     go get github.com/DevDungeon/WebGenome/website
     go get github.com/DevDungeon/WebGenome/worker_http
     
-    # Or all at once with
-    go get github.cm/DevDungeon/WebGenome...
-	
 ### Setting up database
 
-Create a MongoDB database and seed it with a domain.
+Create a MongoDB database and seed it with a domain. Add an index on the name field to really speed things up:
 
+	sudo apt install mongodb
 	mongo
 	> use webgenome
 	> db.domains.insert({'name':'www.devdungeon.com'})
+	> db.domains.createIndex({name:1})
 
-Add an index on the name field to really speed things up:
-
-	db.domains.createIndex({name:1})
+#### Sample database queries
+	
+	db.getCollectionNames()
+	db.showCollections()
+	db.domains.getIndexes()
+	db.domains.stats()
+	db.domains.count()
+	db.domains.find({name:'www.devdungeon.com'})
+	db.domains.count({lastchecked:{$exists:true}, skipped: null})
+	db.domains.find({headers: {$elemMatch: {value: {$regex: 'Cookie'}}}}).pretty()
+	db.domains.find({headers: {$elemMatch: {key: {$regex: 'Drupal'}}}}).pretty()
 
 ### Run website using systemd
 
-First, due to issues with the static directory being served the executable should
-be run in the website directory. Go in to the website dir and run go build to get
-an executable in that directory, or copy the one in your $GOBIN to the website dir.
+The systemd directory contains a sample service file that can be used to run the website as a service.
 	
-	cp /home/webgenome/gospace/src/github.com/DevDungeon/WebGenome/systemctl/webgenome.service /etc/systemd/system/
-	chown root:root /usr/lib/systemd/system/webgenome.service
+	sudo cp /home/webgenome/go/src/github.com/DevDungeon/WebGenome/systemctl/webgenome.service /etc/systemd/system/
+	sudo chown root:root /etc/systemd/system/webgenome.service
 	
-	vim /usr/lib/systemd/system/webgenome.service
+	sudo vim /etc/systemd/system/webgenome.service # Double check settings
 	
 	systemctl webgenome enable
 	systemctl webgenome start
@@ -63,15 +72,14 @@ an executable in that directory, or copy the one in your $GOBIN to the website d
 ### Nginx reverse proxy
 
 The web server will listen on port 3000 by default.
-Access it directly or set up a reverse proxy
+Access it directly or set up a reverse proxy with nginx like this:
 
-# /etc/nginx/conf.d/webgenome.conf
-	server {
-	listen 80;
-	server_name webgeno.me;
-	return 301 $scheme://www.webgeno.me$request_uri;
+	# /etc/nginx/conf.d/webgenome.conf
+	server {  # Redirect non-www to www
+		listen 80;
+		server_name webgeno.me;
+		return 301 $scheme://www.webgeno.me$request_uri;
 	}
-
 	server {
 		listen 80;
 		server_name www.webgeno.me;
@@ -81,36 +89,27 @@ Access it directly or set up a reverse proxy
 		}
 	}
 
-
 ### Running worker_http
-	worker_http --host=localhost --database=webgenome --collection=domains --max-threads=4 --http-timeout=30 --batch-size=100 --verbose
 
+Here is an example usage of running the crawler:
+
+	worker_http --host=localhost --database=webgenome --collection=domains --max-threads=4 --http-timeout=30 --batch-size=100 --verbose
 
 ## Updating
 
-Only need to go get and restart the service as long as no new Configuration
-variables were introduced and nothing needs to change in the systemctl script
-(e.g. new cli args introduced)
-
 	# Update the source and executables
-    go get -u github.com/DevDungeon/WebGenome
-    go get -u github.com/DevDungeon/WebGenome/core
-    go get -u github.com/DevDungeon/WebGenome/website
-    go get -u github.com/DevDungeon/WebGenome/worker_http
-		
-	# If necessary, edit the systemctl script
-	vim /usr/lib/systemd/system/webgenome.service
+    go get -u github.com/DevDungeon/WebGenome...
 	
 	# Restart the service
 	systemctl restart webgenome
 
 ## Source Code
+
 * [WebGenome (GitHub.com)](https://www.github.com/DevDungeon/WebGenome)
 
 ## Contact
 
-NanoDano nanodano@devdungeon.com
-
+support@webgeno.me
 
 ## License
 
@@ -129,11 +128,13 @@ the current working directory of website/. There are multiple database connectio
 also hard-coded in the website.go file. Yeah, yeah... it needs to be refactored
 and dried up.
 
-The worker is not run as a service because it may fill up your disk space.
-
+The worker is not run as a service because it may fill up your disk space and it
+should be run in verbose mode at the beginning so you can tune and make sure
+it's not hammering nested subdomains on a single site.
 
 ## Changelog
 
+v1.1 - 2018/03/23 - Clean up files, sync disjointed repo, and relaunch
 v1.0 - 2016/11/18 - Initial stable release
 
 ## Screenshots

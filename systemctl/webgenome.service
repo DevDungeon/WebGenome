@@ -5,9 +5,9 @@ After=network.target
 [Service]
 Type=simple
 User=webgenome
-WorkingDirectory=/home/webgenome/gospace/src/github.com/DevDungeon/WebGenome/website
-ExecStart=/home/webgenome/gospace/src/github.com/DevDungeon/WebGenome/website/website
-Restart=on-abort
+WorkingDirectory=/home/webgenome/go/src/github.com/DevDungeon/WebGenome/website
+ExecStart=/home/webgenome/go/bin/website
+Restart=always
 
 [Install]
 WantedBy=multi-user.target
