@@ -214,7 +214,7 @@ func processDomain(domain core.Domain, httpTimeout time.Duration, doneChannel ch
 
 	var (
 		err       error
-		userAgent string = "WebGenome Open Source Web Crawler"
+		userAgent string = "WebGenome Open Source Web Crawler - https://github.com/DevDungeon/WebGenome/"
 	)
 	domain.LastChecked = time.Now()
 
