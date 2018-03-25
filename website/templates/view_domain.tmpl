@@ -24,7 +24,8 @@
 
 
 {{if .parentDomains}}
-<h2>Path from DevDungeon</h2>
+<h2>Crawl path from DevDungeon</h2>
+<p>Any domain found by this crawler was found by following a publicly available hyperlink on the internet. The web crawlers was seeded with a single domain, devdungeon.com. This list explains how the crawler ended up on this domain when it only followed visible links starting from a single page.</p>
 <ol>
 {{range .parentDomains}}
 	<li><a href="/domain/{{.Id.Hex}}">{{.Name}}</a></li>
