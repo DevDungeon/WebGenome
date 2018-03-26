@@ -232,6 +232,7 @@ func processDomain(domain core.Domain, httpTimeout time.Duration, doneChannel ch
 		".zjdyhyjx.com",
 		".sanguoyule.com",
 		".tw066.com",
+		".862sc.com",
 	}
 	for _, ignoredDomain := range ignoredDomains {
 		pos := strings.Index(domain.Name, ignoredDomain)
